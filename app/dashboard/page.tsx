@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { ethers } from "ethers"
 
-const contractAddress = "YOUR_CONTRACT_ADDRESS"
+const contractAddress = "0x27B7860935fe0a46bE3bb339dD6122aBB1434efa"
 
 const contractABI = [
   {
