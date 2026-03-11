@@ -1,8 +1,3 @@
-declare global {
-  interface Window {
-    ethereum?: any
-  }
-}
 "use client"
 
 import { useState } from "react"
@@ -61,7 +56,7 @@ export default function Dashboard() {
       const ethereum = (window as any).ethereum
 
       const provider = new ethers.BrowserProvider(window.ethereum)
-      
+
       const signer = await provider.getSigner()
 
       const contract = new ethers.Contract(
