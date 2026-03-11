@@ -3,68 +3,58 @@
 import { useState } from "react"
 import { ethers } from "ethers"
 
-const contractAddress = "0x27B7860935fe0a46bE3bb339dD6122aBB1434efa"
-
 export default function Dashboard() {
 
   const [wallet,setWallet] = useState("")
-  const [result,setResult] = useState("")
 
   async function connectWallet(){
-
-    const eth = (window as any).ethereum
-
-    if(!eth){
+    if(!(window as any).ethereum){
       alert("Install MetaMask")
       return
     }
 
-    const accounts = await eth.request({
+    const accounts = await (window as any).ethereum.request({
       method:"eth_requestAccounts"
     })
 
     setWallet(accounts[0])
   }
 
-  async function testConnection(){
-
-    try{
-
-      const provider = new ethers.BrowserProvider((window as any).ethereum)
-
-      const signer = await provider.getSigner()
-
-      const address = await signer.getAddress()
-
-      setResult("Connected: "+address)
-
-    }catch(err){
-      console.log(err)
-      setResult("Connection failed")
-    }
-
-  }
-
   return(
 
-    <div style={{padding:"40px"}}>
+    <div style={{
+      minHeight:"100vh",
+      background:"#020c22",
+      color:"white",
+      fontFamily:"sans-serif"
+    }}>
 
-      <h1>ArcPay Dashboard</h1>
+      <div style={{
+        display:"flex",
+        justifyContent:"space-between",
+        padding:"20px 40px",
+        background:"#071a3a"
+      }}>
 
-      <button onClick={connectWallet}>
-        {wallet ? wallet : "Connect Wallet"}
-      </button>
+        <h2>ArcPay</h2>
 
-      <br/><br/>
+        <button onClick={connectWallet}>
+          {wallet ? wallet.slice(0,6)+"..."+wallet.slice(-4) : "Connect Wallet"}
+        </button>
 
-      <button onClick={testConnection}>
-        Test Wallet Connection
-      </button>
+      </div>
 
-      <p>{result}</p>
+      <div style={{
+        textAlign:"center",
+        marginTop:"80px"
+      }}>
+
+        <h1>Split Payments on Arc Network</h1>
+        <p>Send USDC to multiple recipients instantly</p>
+
+      </div>
 
     </div>
 
   )
-
 }
