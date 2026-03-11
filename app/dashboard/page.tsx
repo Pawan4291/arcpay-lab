@@ -25,7 +25,7 @@ export default function Dashboard(){
    return
   }
 
-  const provider = new ethers.BrowserProvider(window.ethereum)
+  const provider = new ethers.BrowserProvider((window as any).ethereum)
   const accounts = await provider.send("eth_requestAccounts",[])
 
   setWallet(accounts[0])
