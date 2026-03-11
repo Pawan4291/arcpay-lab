@@ -55,7 +55,7 @@ export default function Dashboard() {
 
       const ethereum = (window as any).ethereum
 
-      const provider = new ethers.BrowserProvider(window.ethereum)
+      const provider = new ethers.BrowserProvider((window).ethereum)
 
       const signer = await provider.getSigner()
 
