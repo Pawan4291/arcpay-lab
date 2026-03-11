@@ -18,15 +18,24 @@ export default function Dashboard(){
     "function split(address payable addr1,address payable addr2) public payable"
   ];
 
-  async function connectWallet(){
+  async function connectWallet() {
+  try {
+    const ethereum = (window as any).ethereum
 
-    const accounts = await window.ethereum.request({
-      method:"eth_requestAccounts"
-    });
+    if (!ethereum) {
+      alert("Please install MetaMask")
+      return
+    }
 
-    setWallet(accounts[0]);
+    const accounts = await ethereum.request({
+      method: "eth_requestAccounts"
+    })
 
+    setWallet(accounts[0])
+  } catch (error) {
+    console.error(error)
   }
+}
 
   async function sendSplitPayment(){
 
