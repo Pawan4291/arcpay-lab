@@ -1,4 +1,4 @@
-use client"
+"use client"
 
 import { useState } from "react"
 import { ethers } from "ethers"
@@ -7,14 +7,14 @@ const contractAddress = "0x27B7860935fe0a46bE3bb339dD6122aBB1434efa"
 
 const contractABI = [
   {
-    "inputs": [
-      { "internalType": "address", "name": "_to1", "type": "address" },
-      { "internalType": "address", "name": "_to2", "type": "address" }
+    inputs: [
+      { internalType: "address", name: "_to1", type: "address" },
+      { internalType: "address", name: "_to2", type: "address" }
     ],
-    "name": "splitPayment",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
+    name: "splitPayment",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function"
   }
 ]
 
@@ -30,14 +30,21 @@ export default function Dashboard() {
 
     try {
 
-      const accounts = await (window as any).ethereum.request({
+      const ethereum = (window as any).ethereum
+
+      if (!ethereum) {
+        alert("Install MetaMask")
+        return
+      }
+
+      const accounts = await ethereum.request({
         method: "eth_requestAccounts"
       })
 
       setWallet(accounts[0])
 
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
 
   }
@@ -46,9 +53,9 @@ export default function Dashboard() {
 
     try {
 
-      setResult("Sending transaction...")
+      const ethereum = (window as any).ethereum
 
-      const provider = new ethers.BrowserProvider((window as any).ethereum)
+      const provider = new ethers.BrowserProvider(ethereum)
 
       const signer = await provider.getSigner()
 
@@ -64,13 +71,15 @@ export default function Dashboard() {
         value
       })
 
+      setResult("Transaction Sent...")
+
       await tx.wait()
 
       setResult("Payment Split Successful")
 
-    } catch (error) {
+    } catch (err) {
 
-      console.log(error)
+      console.log(err)
       setResult("Transaction Failed")
 
     }
@@ -79,7 +88,7 @@ export default function Dashboard() {
 
   return (
 
-    <div style={{padding:"40px", textAlign:"center"}}>
+    <div style={{textAlign:"center", marginTop:"100px"}}>
 
       <h1>ArcPay Dashboard</h1>
 
@@ -119,7 +128,7 @@ export default function Dashboard() {
 
       </div>
 
-      <p style={{marginTop:"30px"}}>{result}</p>
+      <p style={{marginTop:"20px"}}>{result}</p>
 
     </div>
 
