@@ -1,89 +1,102 @@
 "use client";
 
-import { useState } from "react";
-import { ethers } from "ethers";
+import Link from "next/link";
 
 export default function Home() {
 
-  const [wallet, setWallet] = useState("");
+  return(
 
-  async function connectWallet() {
-    if (typeof window !== "undefined" && (window as any).ethereum) {
+    <main style={main}>
 
-      const provider = new ethers.BrowserProvider((window as any).ethereum);
+      <div style={centerBox}>
 
-      const accounts = await provider.send("eth_requestAccounts", []);
+        <h1 style={title}>
+          ArcPay
+        </h1>
 
-      setWallet(accounts[0]);
+        <p style={subtitle}>
+          The simplest way to split stablecoin payments on Arc Network.
+          <br/>
+          Send one transaction and automatically distribute funds to multiple wallets.
+        </p>
 
-    } else {
-      alert("Please install MetaMask");
-    }
-  }
+        <div style={buttons}>
 
-  return (
-    <main style={{
-      minHeight: "100vh",
-      background: "#0f172a",
-      color: "white",
-      fontFamily: "sans-serif",
-      padding: "40px"
-    }}>
+          <Link href="/dashboard">
+            <button style={primaryBtn}>
+              Launch App
+            </button>
+          </Link>
 
-      <div style={{
-        display:"flex",
-        justifyContent:"space-between",
-        alignItems:"center",
-        marginBottom:"40px"
-      }}>
+          <a
+          href="https://faucet.circle.com/"
+          target="_blank"
+          >
+            <button style={secondaryBtn}>
+              Get Testnet USDC
+            </button>
+          </a>
 
-        <h1>ArcPay Lab</h1>
-
-        <button
-          onClick={connectWallet}
-          style={{
-            background:"#2563eb",
-            border:"none",
-            padding:"10px 20px",
-            borderRadius:"8px",
-            color:"white",
-            cursor:"pointer"
-          }}
-        >
-          {wallet ? wallet.slice(0,6) + "..." + wallet.slice(-4) : "Connect Wallet"}
-        </button>
-
-      </div>
-
-      <div style={{
-        display:"grid",
-        gridTemplateColumns:"repeat(3,1fr)",
-        gap:"20px"
-      }}>
-
-        <div style={card}>
-          <h3>Payment Split</h3>
-          <p>Split stablecoin payments between multiple addresses.</p>
-        </div>
-
-        <div style={card}>
-          <h3>Escrow Payment</h3>
-          <p>Lock funds until conditions are met.</p>
-        </div>
-
-        <div style={card}>
-          <h3>Subscription</h3>
-          <p>Test recurring stablecoin payments.</p>
         </div>
 
       </div>
 
     </main>
+
   );
+
 }
 
-const card = {
-  background:"#1e293b",
-  padding:"20px",
-  borderRadius:"10px"
-};
+const main = {
+  minHeight:"100vh",
+  background:"linear-gradient(135deg,#020617,#0f172a)",
+  color:"white",
+  display:"flex",
+  alignItems:"center",
+  justifyContent:"center",
+  fontFamily:"sans-serif"
+}
+
+const centerBox = {
+  textAlign:"center",
+  maxWidth:"700px"
+}
+
+const title = {
+  fontSize:"70px",
+  fontWeight:"bold",
+  marginBottom:"20px"
+}
+
+const subtitle = {
+  fontSize:"20px",
+  opacity:"0.8",
+  marginBottom:"40px",
+  lineHeight:"1.6"
+}
+
+const buttons = {
+  display:"flex",
+  gap:"20px",
+  justifyContent:"center"
+}
+
+const primaryBtn = {
+  padding:"14px 28px",
+  borderRadius:"10px",
+  border:"none",
+  background:"#10b981",
+  color:"white",
+  fontSize:"16px",
+  cursor:"pointer"
+}
+
+const secondaryBtn = {
+  padding:"14px 28px",
+  borderRadius:"10px",
+  border:"1px solid white",
+  background:"transparent",
+  color:"white",
+  fontSize:"16px",
+  cursor:"pointer"
+}
